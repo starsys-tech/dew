@@ -27,17 +27,16 @@ import group.idealworld.dew.core.dbutils.process.DSLoader;
  */
 public class DewDBUtils {
 
+
+
     /**
      * 初始化数据源.
      *
-     * @param configPath 配置文件路径
+     * @param dbUtilsConfig 加载配置信息
      */
-    public static void init(String configPath) {
-        DSLoader.load(configPath);
-    }
 
-    public static void init2(DBUtilsConfig dbUtilsConfig){
-        DSLoader.load2(dbUtilsConfig);
+    public static void init(DBUtilsConfig dbUtilsConfig){
+        DSLoader.load(dbUtilsConfig);
     }
 
     /**

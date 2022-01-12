@@ -15,7 +15,7 @@ public class DbutilsAutoConfiguration {
 
     @Bean
     public DewDB dewDB(DBUtilsConfig DBUtilsConfig) {
-        DewDBUtils.init2(DBUtilsConfig);
+        DewDBUtils.init(DBUtilsConfig);
         DewDB dewDB = DewDBUtils.use("default");
         return dewDB;
     }

@@ -48,27 +48,8 @@ public class DSLoader {
         return MULTI_DS.get(dsCode);
     }
 
-    public static void load(String configPath) {
-        MULTI_DS.clear();
-        log.info("[DewDBUtils]Load DS from {}", configPath);
-        File configFile = new File(configPath);
-        if (!configFile.exists() || configFile.isDirectory()) {
-            throw new RuntimeException("Config file [" + configPath + "] NOT exist");
-        }
-        DBUtilsConfig dbUtilsConfig;
-        try {
-            String content = new String(Files.readAllBytes(configFile.toPath()), StandardCharsets.UTF_8);
-            dbUtilsConfig = YamlHelper.toObject(DBUtilsConfig.class, content);
-        } catch (IOException e) {
-            throw new RuntimeException("Config file [" + configPath + "] parse error", e);
-        }
-        loadDS(dbUtilsConfig.getDs());
-        if (dbUtilsConfig.getDynamicDS().getEnabled()) {
-            loadDynamicDS(dbUtilsConfig.getDynamicDS().getDsCode(), dbUtilsConfig.getDynamicDS().getFetchSql());
-        }
-    }
 
-    public static void load2(DBUtilsConfig dbUtilsConfig) {
+    public static void load(DBUtilsConfig dbUtilsConfig) {
         loadDS(dbUtilsConfig.getDs());
         if (dbUtilsConfig.getDynamicDS().getEnabled()) {
             loadDynamicDS(dbUtilsConfig.getDynamicDS().getDsCode(), dbUtilsConfig.getDynamicDS().getFetchSql());
