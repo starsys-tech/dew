@@ -46,6 +46,8 @@
         <module>modules/test-starter</module>
         <module>assists/sdkgen-maven-plugin</module>
         <module>modules/cluster-rocket</module>
+        <module>modules/hi-starter</module>
+        <module>modules/dbutils-starter</module>
     </modules>
 
 </project>
