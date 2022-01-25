@@ -48,6 +48,7 @@
         <module>modules/cluster-rocket</module>
         <module>modules/hi-starter</module>
         <module>modules/dbutils-starter</module>
+        <module>modules/quartz-starter</module>
     </modules>
 
 </project>
