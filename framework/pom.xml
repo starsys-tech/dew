@@ -46,6 +46,7 @@
         <module>modules/test-starter</module>
         <module>assists/sdkgen-maven-plugin</module>
         <module>modules/cluster-rocket</module>
+        <module>modules/quartz-starter</module>
     </modules>
 
 </project>
