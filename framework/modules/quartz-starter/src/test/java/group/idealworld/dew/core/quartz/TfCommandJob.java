@@ -16,8 +16,9 @@ public class TfCommandJob implements Job {
     @Override
     public void execute(JobExecutionContext context) {
         try {
+            Thread.sleep(3000);
             log.info(context.getScheduler().getSchedulerInstanceId() + "--" + new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(new Date()));
-        } catch (SchedulerException e) {
+        } catch (Exception e) {
             log.error("任务执行失败",e);
         }
     }
