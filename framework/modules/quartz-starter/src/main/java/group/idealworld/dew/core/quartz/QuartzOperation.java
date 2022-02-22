@@ -1,5 +1,7 @@
 package group.idealworld.dew.core.quartz;
 
+import org.quartz.SchedulerException;
+
 import java.util.Map;
 
 public interface QuartzOperation {
@@ -7,54 +9,48 @@ public interface QuartzOperation {
      * 添加任务可以传参数
      *
      * @param clazzName
-     * @param jobName
-     * @param groupName
+     * @param jobKey
      * @param cronExp
      * @param param
      */
-    void addJob(String clazzName, String jobName, String groupName, String cronExp, Map<String, Object> param);
+    void addJob(String clazzName, String jobKey, String cronExp, Map<String, Object> param);
 
     /**
      * 暂停任务
      *
-     * @param jobName
-     * @param groupName
+     * @param jobKey
      */
-    void pauseJob(String jobName, String groupName);
+    void pauseJob(String jobKey);
 
     /**
      * 恢复任务
      *
-     * @param jobName
-     * @param groupName
+     * @param jobKey
      */
-    void resumeJob(String jobName, String groupName);
+    void resumeJob(String jobKey);
 
     /**
      * 立即运行一次定时任务
      *
-     * @param jobName
-     * @param groupName
+     * @param jobKey
      */
-    void runOnce(String jobName, String groupName);
+    void runOnce(String jobKey);
 
     /**
      * 更新任务
      *
-     * @param jobName
-     * @param groupName
+     * @param jobKey
      * @param cronExp
      * @param param
      */
-    void updateJob(String jobName, String groupName, String cronExp, Map<String, Object> param);
+    void updateJob(String jobKey, String cronExp, Map<String, Object> param);
 
     /**
      * 删除任务
      *
-     * @param jobName
-     * @param groupName
+     * @param jobKey
      */
-    void deleteJob(String jobName, String groupName);
+    void deleteJob(String jobKey);
 
     /**
      * 启动所有任务
@@ -75,5 +71,7 @@ public interface QuartzOperation {
      * 关闭所有任务
      */
     void shutdownAllJobs();
+
+    boolean checkJob(String jobKey) throws SchedulerException;
 
 }

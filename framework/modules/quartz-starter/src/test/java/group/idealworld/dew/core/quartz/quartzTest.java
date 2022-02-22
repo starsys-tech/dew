@@ -1,57 +1,50 @@
 package group.idealworld.dew.core.quartz;
 
 
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.quartz.*;
+import org.junit.Assert;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootApplication
-@SpringBootTest
-public class quartzTest {
+public class QuartzTest {
 
-    private static final Logger log = LoggerFactory.getLogger(quartzTest.class);
+    private static final Logger log = LoggerFactory.getLogger(QuartzTest.class);
 
-    @Autowired
-    QuartzTemplate template;
 
-    @Test
-    public void test() throws InterruptedException {
-        testQuartz();
-        testRunOnce();
-        startAllJob();
-        deleteJob();
+    public void test(QuartzTemplate template) throws InterruptedException, SchedulerException {
+        testQuartz(template);
+        testRunOnce(template);
+        startAllJob(template);
+        deleteJob(template);
     }
 
 
-    public void testQuartz() throws InterruptedException {
-        template.addJob("group.idealworld.dew.core.quartz.TfCommandJob", "myJob", "default", "0/1 * * * * ?", null);
-        Thread.sleep(3000);
-        template.pauseJob("myJob","default");
-        Thread.sleep(3000);
-        template.resumeJob("myJob","default");
-        Thread.sleep(3000);
+    public void testQuartz(QuartzTemplate template) throws InterruptedException, SchedulerException {
+        template.addJob("group.idealworld.dew.core.quartz.TfCommandJob", "myJob", "0/1 * * * * ?", null);
+        Assert.assertTrue(template.checkJob("myJob"));
+        template.pauseJob("myJob");
+        Assert.assertEquals("PAUSED",template.getJobState("myJob"));
+        template.resumeJob("myJob");
+        Assert.assertEquals("NORMAL",template.getJobState("myJob"));
     }
 
 
-    public void testRunOnce() throws InterruptedException {
-        template.runOnce("myJob","default");
+    public void testRunOnce(QuartzTemplate template) throws InterruptedException, SchedulerException {
+        template.runOnce("myJob");
+        Assert.assertEquals("NORMAL",template.getJobState("myJob"));
     }
 
 
-    public void startAllJob() throws InterruptedException {
+    public void startAllJob(QuartzTemplate template) throws InterruptedException, SchedulerException {
         template.startAllJobs();
-        Thread.sleep(5000);
+        Thread.sleep(1000);
+        Assert.assertEquals("NORMAL",template.getJobState("myJob"));
     }
 
 
-    public void deleteJob(){
-        log.info("deleteJob");
-        template.deleteJob("myJob","default");
+    public void deleteJob(QuartzTemplate template) throws SchedulerException {
+        template.deleteJob("myJob");
+        Assert.assertFalse(template.checkJob("myJob"));
     }
 
 }
