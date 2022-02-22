@@ -35,12 +35,12 @@ public class MySqlExtension implements BeforeAllCallback {
 
 //    private static JdbcDatabaseContainer mysqlContainer = new MySQLContainer(DockerImageName.parse("8").asCompatibleSubstituteFor("mysql"));
 
-    private static MySQLContainer mysqlContainer = (MySQLContainer) new MySQLContainer("mysql:8.0.11").withDatabaseName("quartz")
+    private static MySQLContainer mysqlContainer = (MySQLContainer) new MySQLContainer("mysql:8.0.11").withDatabaseName("test")
             .withUsername("test").withPassword("test").withEnv("MYSQL_ROOT_HOST", "%");
 
     @Override
     public void beforeAll(ExtensionContext extensionContext) {
-        var scriptPath = ClassLoader.getSystemResource("").getPath() + "init.sql";
+        var scriptPath = ClassLoader.getSystemResource("").getPath() + "sql/init.sql";
         if (new File(scriptPath).exists()) {
             mysqlContainer.withInitScript("init.sql");
         }
@@ -54,7 +54,7 @@ public class MySqlExtension implements BeforeAllCallback {
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
-                    "spring.datasource.url=jdbc:mysql://127.0.0.1:" + mysqlContainer.getFirstMappedPort() + "/quartz?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true",
+                    "spring.datasource.url=jdbc:mysql://127.0.0.1:" + mysqlContainer.getFirstMappedPort() + "/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true",
                     "spring.datasource.username=" + mysqlContainer.getUsername(),
                     "spring.datasource.password=" + mysqlContainer.getPassword(),
                     "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver"
