@@ -33,16 +33,13 @@ public class MySqlExtension implements BeforeAllCallback {
 
     private static final Logger logger = LoggerFactory.getLogger(MySqlExtension.class);
 
-//    private static JdbcDatabaseContainer mysqlContainer = new MySQLContainer(DockerImageName.parse("8").asCompatibleSubstituteFor("mysql"));
-
-    private static MySQLContainer mysqlContainer = (MySQLContainer) new MySQLContainer("mysql:8.0.11").withDatabaseName("test")
-            .withUsername("test").withPassword("test").withEnv("MYSQL_ROOT_HOST", "%");
+    private static final JdbcDatabaseContainer mysqlContainer = new MySQLContainer(DockerImageName.parse("8").asCompatibleSubstituteFor("mysql"));
 
     @Override
     public void beforeAll(ExtensionContext extensionContext) {
-        var scriptPath = ClassLoader.getSystemResource("").getPath() + "sql/init.sql";
+        var scriptPath = ClassLoader.getSystemResource("").getPath() + "/sql/init.sql";
         if (new File(scriptPath).exists()) {
-            mysqlContainer.withInitScript("init.sql");
+            mysqlContainer.withInitScript("sql/init.sql");
         }
         mysqlContainer.withCommand("--max_allowed_packet=10M");
         mysqlContainer.start();
@@ -54,10 +51,9 @@ public class MySqlExtension implements BeforeAllCallback {
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
-                    "spring.datasource.url=jdbc:mysql://127.0.0.1:" + mysqlContainer.getFirstMappedPort() + "/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true",
+                    "spring.datasource.url=" + mysqlContainer.getJdbcUrl(),
                     "spring.datasource.username=" + mysqlContainer.getUsername(),
-                    "spring.datasource.password=" + mysqlContainer.getPassword(),
-                    "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver"
+                    "spring.datasource.password=" + mysqlContainer.getPassword()
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }
