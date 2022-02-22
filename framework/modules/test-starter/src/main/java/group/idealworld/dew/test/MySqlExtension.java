@@ -40,7 +40,7 @@ public class MySqlExtension implements BeforeAllCallback {
 
     @Override
     public void beforeAll(ExtensionContext extensionContext) {
-        var scriptPath = ClassLoader.getSystemResource("").getPath() + "sql/init.sql";
+        var scriptPath = ClassLoader.getSystemResource("").getPath() + "/sql/init.sql";
         if (new File(scriptPath).exists()) {
             mysqlContainer.withInitScript("init.sql");
         }
