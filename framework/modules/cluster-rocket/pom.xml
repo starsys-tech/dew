@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2021. the original author or authors.
+  ~ Copyright 2022. the original author or authors
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>cluster-spi-rocket</artifactId>
-    <name>1.1.4 Dew Cluster Rocket</name>
+    <name>1.1.5 Dew Cluster Rocket</name>
     <description>Dew 集群 Rocket 实现</description>
     <packaging>jar</packaging>
 
