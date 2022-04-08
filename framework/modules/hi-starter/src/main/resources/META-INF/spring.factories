@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+group.idealworld.dew.core.hi.ext.HiAutoConfiguration,\
+group.idealworld.dew.core.hi.ext.SpringBeanDetector
